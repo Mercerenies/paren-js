@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<title>Page - Eight</title>
+		<script src="paren.js"></script>
+		<script>
+			var global = Scope(Frame(), Frame());
+			function output(x) {
+				document.getElementById("output").innerHTML += x.toString() + "<br/>";
+			}
+			function main() {
+				output("Smileyface :)");
+				output([1, 2, 3]);
+				output("--");
+				initialize(global);
+				output("Ready...");
+			}
+			function givenInput() {
+			    var field = document.getElementById("field");
+				var value = field.value;
+				var result = null;
+				output("&gt; " + html(value));
+				try {
+					result = read(value);
+					if (result == null)
+						result = "<null>";
+					else if (typeof result == "undefined")
+						result = "<undef>";
+					else
+						result = to_string(evaluate(global, result));
+				} catch (e) {
+					result = "<" + e + ">";
+				//} finally {
+				}
+				result = html(result);
+				field.value = "";
+				output(result);
+			}
+			function clearOutput() {
+				document.getElementById("output").innerHTML = "";
+			}
+		</script>
+	</head>
+	<body onload="main()">
+		<div id="input">
+			<textarea id="field" onkeydown="if (event.keyCode == 13) { givenInput(); return false; }" wrap="soft" style="width:20%;height:5em"></textarea><br/>
+			<input type="submit" onclick="givenInput()" />
+			<input type="button" value="Clear" onclick="clearOutput()" />
+		</div>
+		<div id="output"></div>
+	</body>
+</html>
